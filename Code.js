@@ -134,9 +134,9 @@ const emailPanalists = (leader, panelists, date) => {
     const panelistEmailTemplate = formatPanalistEmail(leader, panelists, date);
     console.log(panelistEmailTemplate);
     MailApp.sendEmail({
-      //to: panalist.email,
-      //subject: `${panalist.name}, You're on the Panel!`,
-      //htmlBody: leaderEmailTemplate,
+      to: panalist.email,
+      subject: `${panalist.name}, You're on the Panel!`,
+      htmlBody: leaderEmailTemplate,
     });
   }
 }
