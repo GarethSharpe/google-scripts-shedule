@@ -129,14 +129,13 @@ const emailLeaders = (leaders, panelists, date) => {
   
 }
 
-const emailPanalists = (leader, panelists, date) => {
+const emailPanalists = (leaders, panelists, date) => {
   for (panelist of panelists) {
-    const panelistEmailTemplate = formatPanalistEmail(leader, panelists, date);
-    console.log(panelistEmailTemplate);
+    const panelistEmailTemplate = formatPanalistEmail(leaders, panelists, date);
     MailApp.sendEmail({
       to: panalist.email,
       subject: `${panalist.name}, You're on the Panel!`,
-      htmlBody: leaderEmailTemplate,
+      htmlBody: panelistEmailTemplate,
     });
   }
 }
