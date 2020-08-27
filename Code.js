@@ -15,7 +15,7 @@ const doPanelCheck = () => {
   console.log(panelists);
   console.log(leaders);
   emailLeaders(leaders, panelists, date);
-  emailPanalists(leader, panelists, date);
+  emailPanalists(leaders, panelists, date);
 }
 
 const findReminderDate = () => {
@@ -72,7 +72,7 @@ const findAndRemoveLeaders = (array, attribute, value) => {
   const removed = [];
   for (let i = 0; i < array.length; i++) {
     if (array[i][attribute] === value) {
-      removed.push(array.splice(i, 1));
+      removed.push(array.splice(i, 1)[0]);
     }
   }
   return removed;
@@ -84,7 +84,7 @@ const formatLeaderEmail = (leader, panalists, date) => {
   return `
     Hi ${leader.name},<br/>
     <br/>
-    This is a friendly reminder that you are leading the bible study panel tomorrow, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
+    This is a friendly reminder that you are leading the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
     will be joining you are: ${names.join(', ')}.
     <br/><br/>
     Click <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a> to see where we are starting.<br/>
@@ -92,33 +92,34 @@ const formatLeaderEmail = (leader, panalists, date) => {
     <br/>
     <p style="font-family:'Courier New'">
       This is an automated email; pretty please don't respond. It is coming from my personal email address but will soon come from a more suitable email address.
-      If you are a nerd and would like to see how this code works, you can visit the GitHub repository <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a>.
+      If you are a nerd and would like to see how this code works, you can visit the GitHub repository <a href='https://github.com/GarethSharpe/google-scripts-shedule/blob/master/Code.js'>here<\/a>.
     </p>
   `;
 }
 
-const formatPanalistEmail = (leader, panalists, date) => {
-  const names = panalists.map(panalist => panalist.name);
+const formatPanalistEmail = (leaders, panalists, date) => {
+  const panalistNames = panalists.map(panalist => panalist.name);
+  const leaderNames = leaders.map(leader => leader.name);
   const tomorrow = `${date.getMonth()}\/${date.getDate()}`;
   return `
     Hi ${leader.name},<br/>
     <br/>
-    This is a friendly reminder that you are joining the bible study panel tomorrow, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
-    will be joining you are: ${names.join(', ')}. ${leader.name} will be leading the study.<br/>
+    This is a friendly reminder that you are joining the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
+    will be joining you are: ${panalistNames.join(', ')}. ${leaderNames.join(', ')} will be leading the study.<br/>
     <br/>
     Click <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a> to see where we are starting.<br/>
     <br/>
     <br/>
     <p style="font-family:'Courier New'">
       This is an automated email; pretty please don't respond. It is coming from my personal email address but will soon come from a more suitable email address.
-      If you are a nerd and would like to see how this code works, you can visit the GitHub repository <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a>.
+      If you are a nerd and would like to see how this code works, you can visit the GitHub repository <a href='https://github.com/GarethSharpe/google-scripts-shedule/blob/master/Code.js'>here<\/a>.
     </p>
   `;
 }
 
-const emailLeaders = (leaders, panalists, date) => {
-  for (leader in leaders) {
-    const leaderEmailTemplate = formatLeaderEmail(leader, panalists, date);
+const emailLeaders = (leaders, panelists, date) => {
+  for (leader of leaders) {
+    const leaderEmailTemplate = formatLeaderEmail(leader, panelists, date);
     MailApp.sendEmail({
       to: leader.email,
       subject: `${leader.name}, You're Leading!`,
@@ -128,15 +129,14 @@ const emailLeaders = (leaders, panalists, date) => {
   
 }
 
-const emailPanalists = (leader, panalists, date) => {
-  for (panalist in panlists) {
-    console.log(panalist);
-    const panalistEmailTemplate = formatPanalistEmail(leader, panalists, date);
-    console.log(panalistEmailTemplate)
+const emailPanalists = (leader, panelists, date) => {
+  for (panelist of panelists) {
+    const panelistEmailTemplate = formatPanalistEmail(leader, panelists, date);
+    console.log(panelistEmailTemplate);
     MailApp.sendEmail({
-      to: panalist.email,
-      subject: `${panalist.name}, You're on the Panel!`,
-      htmlBody: leaderEmailTemplate,
+      //to: panalist.email,
+      //subject: `${panalist.name}, You're on the Panel!`,
+      //htmlBody: leaderEmailTemplate,
     });
   }
 }
