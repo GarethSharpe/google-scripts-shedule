@@ -87,7 +87,7 @@ const formatLeaderEmail = (leader, panalists, date) => {
     This is a friendly reminder that you are leading the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
     will be joining you are: ${names.join(', ')}.
     <br/><br/>
-    Click <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a> to see where we are starting.<br/>
+    Click <a href='https://www.kitchenergospelhall.com/study-schedule'>here<\/a> to see where we are starting.<br/>
     <br/>
     <br/>
     <p style="font-family:'Courier New'">
@@ -107,7 +107,7 @@ const formatPanalistEmail = (leaders, panalists, date) => {
     This is a friendly reminder that you are joining the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
     will be joining you are: ${panalistNames.join(', ')}. ${leaderNames.join(', ')} will be leading the study.<br/>
     <br/>
-    Click <a href='https://www.kitchenergospelhall.com/schedule'>here<\/a> to see where we are starting.<br/>
+    Click <a href='https://www.kitchenergospelhall.com/study-schedule'>here<\/a> to see where we are starting.<br/>
     <br/>
     <br/>
     <p style="font-family:'Courier New'">
