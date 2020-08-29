@@ -2,6 +2,7 @@ const CONSTANTS = {
   columnStart: 'C',
   emailColumn: 'A',
   rowEnd: 18,
+  columnEnd: 19,
   marker: 'X',
   leader: '#548135'
 };
@@ -43,7 +44,7 @@ const getPanelists = (column) => {
   const sheet = SpreadsheetApp.getActiveSheet();
   const rowOffset = 2;
   const panelists = [];
-  for (let i = rowOffset; i < CONSTANTS.rowEnd + rowOffset; i++) {
+  for (let i = rowOffset; i < CONSTANTS.columnEnd + rowOffset; i++) {
     const a1Notation = `${column}${i}`;
     const isOnPanel = sheet.getRange(a1Notation).getValue() === CONSTANTS.marker;
     const isLeading = sheet.getRange(a1Notation).getBackground() === CONSTANTS.leader;
