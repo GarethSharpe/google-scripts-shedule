@@ -27,7 +27,10 @@ const findReminderDate = () => {
     const a1Notation = `${column}1`;
     const value = sheet.getRange(a1Notation).getValue();
     console.log(a1Notation, value);
-    if (nowIsFourBefore(now, value)) {
+    console.log(now.getDate(), value.getDate());
+    const isFourDaysBefore = nowIsFourDaysBefore(now, value);
+    console.log(isFourDaysBefore)
+    if (isFourDaysBefore) {
       found = { column, a1Notation, date: value };
       break;
     }
@@ -61,12 +64,13 @@ const nextCharacter = (c) => {
 
 const previousCharacter = (c) => { 
   return String.fromCharCode(c.charCodeAt(0) - 1); 
-} 
+}
 
-const nowIsFourBefore = (now, then) =>
-    now.getFullYear() === then.getFullYear() &&
-    now.getMonth() === then.getMonth() &&
-    now.getDate() + 4 === then.getDate();
+const nowIsFourDaysBefore = (now, then) => {
+  const oneDay = 24 * 60 * 60 * 1000; // h * m * s * ms
+  const diffDays = Math.ceil(Math.abs((now - then) / oneDay));
+  return diffDays === 4;
+}
                         
 const findAndRemoveLeaders = (array, attribute, value) => {
   const removed = [];
