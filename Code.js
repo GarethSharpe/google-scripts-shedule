@@ -15,7 +15,7 @@ const doPanelCheck = () => {
   console.log(panelists);
   console.log(leaders);
   emailLeaders(leaders, panelists, date);
-  emailPanalists(leaders, panelists, date);
+  emailPanelists(leaders, panelists, date);
 }
 
 const findReminderDate = () => {
@@ -82,13 +82,13 @@ const findAndRemoveLeaders = (array, attribute, value) => {
   return removed;
 }
                         
-const formatLeaderEmail = (leader, panalists, date) => {
-  const names = panalists.map(panalist => panalist.name);
+const formatLeaderEmail = (leader, panelists, date) => {
+  const names = panelists.map(panelist => panelist.name);
   const tomorrow = `${date.getMonth()}\/${date.getDate()}`;
   return `
     Hi ${leader.name},<br/>
     <br/>
-    This is a friendly reminder that you are leading the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
+    This is a friendly reminder that you are leading the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panelists.length} panelists who
     will be joining you are: ${names.join(', ')}.
     <br/><br/>
     Click <a href='https://www.kitchenergospelhall.com/study-schedule'>here<\/a> to see where we are starting.<br/>
@@ -101,15 +101,15 @@ const formatLeaderEmail = (leader, panalists, date) => {
   `;
 }
 
-const formatPanalistEmail = (leaders, panalists, date) => {
-  const panalistNames = panalists.map(panalist => panalist.name);
+const formatPanelistEmail = (panelist, leaders, panelists, date) => {
+  const panelistNames = panelists.map(panelist => panelist.name);
   const leaderNames = leaders.map(leader => leader.name);
   const tomorrow = `${date.getMonth()}\/${date.getDate()}`;
   return `
-    Hi ${leader.name},<br/>
+    Hi ${panelist.name},<br/>
     <br/>
-    This is a friendly reminder that you are joining the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panalists.length} panalists who
-    will be joining you are: ${panalistNames.join(', ')}. ${leaderNames.join(', ')} will be leading the study.<br/>
+    This is a friendly reminder that you are joining the bible study panel on Tuesday, ${tomorrow} at 7:30 PM. The ${panelists.length} panelists who
+    will be joining you are: ${panelistNames.join(', ')}. ${leaderNames.join(', ')} will be leading the study.<br/>
     <br/>
     Click <a href='https://www.kitchenergospelhall.com/study-schedule'>here<\/a> to see where we are starting.<br/>
     <br/>
@@ -130,15 +130,14 @@ const emailLeaders = (leaders, panelists, date) => {
       htmlBody: leaderEmailTemplate,
     });
   }
-  
 }
 
-const emailPanalists = (leaders, panelists, date) => {
+const emailPanelists = (leaders, panelists, date) => {
   for (panelist of panelists) {
-    const panelistEmailTemplate = formatPanalistEmail(leaders, panelists, date);
+    const panelistEmailTemplate = formatPanelistEmail(panelist, leaders, panelists, date);
     MailApp.sendEmail({
-      to: panalist.email,
-      subject: `${panalist.name}, You're on the Panel!`,
+      to: panelist.email,
+      subject: `${panelist.name}, You're on the Panel!`,
       htmlBody: panelistEmailTemplate,
     });
   }
