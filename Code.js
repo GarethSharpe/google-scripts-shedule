@@ -1,6 +1,7 @@
 const CONSTANTS = {
   columnStart: 'C',
   emailColumn: 'A',
+  nameColumn: 'B',
   rowEnd: 18,
   columnEnd: 19,
   marker: 'X',
@@ -49,8 +50,7 @@ const getPanelists = (column) => {
     const isOnPanel = sheet.getRange(a1Notation).getValue() === CONSTANTS.marker;
     const isLeading = sheet.getRange(a1Notation).getBackground() === CONSTANTS.leader;
     if (isOnPanel) {
-      const nameColumn = previousCharacter(column);
-      const name = sheet.getRange(`${nameColumn}${i}`).getValue();
+      const name = sheet.getRange(`${CONSTANTS.nameColumn}${i}`).getValue();
       const email = sheet.getRange(`${CONSTANTS.emailColumn}${i}`).getValue();
       const panelist = { isOnPanel, isLeading, name, email };
       panelists.push(panelist);
@@ -68,6 +68,9 @@ const previousCharacter = (c) => {
 }
 
 const nowIsFourDaysBefore = (now, then) => {
+  if (now > then) {
+    return false;
+  }
   const oneDay = 24 * 60 * 60 * 1000; // h * m * s * ms
   const diffDays = Math.ceil(Math.abs((now - then) / oneDay));
   return diffDays === 4;
